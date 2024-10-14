@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="otp.css">
+</head>
+<body>
+    <div class="otp-container"> <!-- New container for the black box -->
+        <div class="form">
+            <h2>OTP Verification</h2>
+            <form>
+                <label class="text"><b>Phone number: (+91 XXXX)</b>
+                    <br>
+                    <input type="text" id="phonenum">
+                </label>
+                <div id="recaptcha-container"></div>
+                <br>
+                <button onclick="phoneAuth(event)">Send OTP</button>
+                <br>
+                <br>
+                <label class="text"><b>Enter OTP sent on your number:</b>
+                    <br>
+                    <input type="text" id="otp">
+                </label>
+                <br>
+                <button onclick="verifycode(event)">Verify OTP</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpJBK7YBOgCYiAGXwBgkNqipyka1RcNpE",
+            authDomain: "sports-information-tracker.firebaseapp.com",
+            projectId: "sports-information-tracker",
+            storageBucket: "sports-information-tracker.appspot.com",
+            messagingSenderId: "593501086332",
+            appId: "1:593501086332:web:692e3fe102030b0a531ff9"
+        };
+        // Initialize Firebase
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+        const db = firebaseApp.firestore();
+        const auth = firebaseApp.auth();
+        render();
+
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+
+        function phoneAuth(e) {
+            e.preventDefault();
+            const phoneNumber = document.getElementById('phonenum').value;
+            const appVerifier = window.recaptchaVerifier;
+            firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult; // Save confirmation result globally
+                    alert("OTP sent");
+                    console.log('OTP Sent');
+                }).catch((error) => {
+                    alert(error.message);
+                });
+        }
+
+        function verifycode(e) {
+            e.preventDefault();
+            const code = document.getElementById('otp').value;
+            if (window.confirmationResult) {
+                window.confirmationResult.confirm(code).then(function () {
+                    console.log("OTP verified");
+                    alert("OTP verified");
+                    setTimeout(function () {
+                        window.location = 'register.html';
+                    }, 1000);
+                }).catch(function () {
+                    console.log("OTP not correct");
+                    alert("OTP not correct");
+                });
+            } else {
+                alert("No OTP sent. Please send OTP first.");
+            }
+        }
+    </script>
+</body>
+</html>

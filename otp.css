@@ -1,0 +1,45 @@
+body {
+    background-color: #db4008;
+}
+
+.otp-container {
+    align-items: center;
+    background-color: rgb(6, 5, 5);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 400px; /* Adjust width as needed */
+    position: relative; /* Allows better control over child elements */
+}
+
+.form {
+    color: floralwhite;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 80vh;
+    font-size: 1.5rem;
+}
+
+.otp-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    border-radius: 10px;
+    z-index: -1; /* Sends the container behind the form */
+}
+
+.text {
+    font-weight: bold;
+}
+
+/* New style to add margin to the CAPTCHA */
+#recaptcha-container {
+    margin-top: 20px; /* Adjust the value to increase or decrease the spacing */
+}

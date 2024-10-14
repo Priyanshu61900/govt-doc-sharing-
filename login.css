@@ -1,0 +1,44 @@
+
+        .login{
+            color: floralwhite;
+            display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 80vh;
+        flex-direction: column;
+        
+        font-size: 1.5rem;
+        }
+        body{
+        background-color: #db4008;;
+        
+    }
+
+    .login-container {
+        align-items: center;
+        background-color: rgb(6, 5, 5);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px auto;
+        width: 500px;
+        position: relative; /* Allows better control over child elements */
+    }
+    
+    form {
+        position: relative;
+        z-index: 1; /* Ensures the form stays above the container */
+    }
+    
+    .login-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black;
+        border-radius: 10px;
+        z-index: -1; /* Sends the container behind the form */
+    }
+    

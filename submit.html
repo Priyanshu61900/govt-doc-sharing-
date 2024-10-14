@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="submit.css">
+</head>
+<body>
+
+    <div class="login-container"> <!-- New container for consistent design -->
+        <div class="profile"> <!-- Changed to match previous styles -->
+            <h2>My Profile</h2>
+            <form id="profile-form" autocomplete="off">
+                <label>First Name:
+                    <input type="text" placeholder="First Name" id="firstname" required>
+                </label>
+                <br>
+                <label>Last Name:
+                    <input type="text" placeholder="Last Name" id="lastname" required>
+                </label>
+                <br>
+                <label>Aadhaar Number:
+                    <input type="text" id="aadharNumber" placeholder="Aadhaar Number" required>
+                </label>
+                <br>
+                <label>Email:
+                    <input type="email" placeholder="abc@gmail.com" id="email" required>
+                </label>
+                <br>
+                <label>Gender:
+                    <input type="text" id="gender" required>
+                </label>
+                <br>
+                <label>Date of Birth:
+                    <input type="text" placeholder="dd/mm/yy" id="date" required>
+                </label>
+                <br>
+                <label>Age:
+                    <input type="text" id="age" required>
+                </label>
+                <br>
+                <label>Country:
+                    <input type="text" id="country" required>
+                </label>
+                <br>
+                <label>State:
+                    <input type="text" placeholder="State" id="state" required>
+                </label>
+                <br>
+                <label>City:
+                    <input type="text" placeholder="City" id="city" required>
+                </label>
+                <br>
+                <input type="submit" class="submit"> 
+                <div id="message"></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="profile-details"></div>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-storage-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpJBK7YBOgCYiAGXwBgkNqipyka1RcNpE",
+            authDomain: "sports-information-tracker.firebaseapp.com",
+            projectId: "sports-information-tracker",
+            storageBucket: "sports-information-tracker.appspot.com",
+            messagingSenderId: "593501086332",
+            appId: "1:593501086332:web:692e3fe102030b0a531ff9"
+        };
+        // Initialize Firebase
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+        const db = firebaseApp.firestore();
+        const auth = firebaseApp.auth();
+        const storage = firebase.storage();
+
+        const form = document.getElementById('profile-form');
+        form.addEventListener('submit', submit);
+
+        function submit(e) {
+            e.preventDefault(); // Prevent the form from submitting in the traditional way
+            const firstname1 = document.getElementById('firstname').value;
+            const lastname1 = document.getElementById('lastname').value;
+            const gender1 = document.getElementById('gender').value;
+            const date1 = document.getElementById('date').value;
+            const age1 = document.getElementById('age').value;
+            const country1 = document.getElementById('country').value;
+            const state1  = document.getElementById('state').value;
+            const city1  = document.getElementById('city').value;
+            const aadharNumber1 = document.getElementById('aadharNumber').value;
+            const email1 = document.getElementById('email').value;
+
+            // Store the data in Firestore with Aadhaar number as document ID
+            db.collection('users').doc(aadharNumber1).set({
+                Firstname: firstname1,
+                Lastname: lastname1,
+                Email: email1,
+                Gender: gender1,
+                Date: date1,
+                Age: age1,
+                Country: country1,
+                State: state1,
+                City: city1,
+            })
+            .then(() => {
+                document.getElementById('message').innerText = "Profile information submitted successfully!";
+                document.getElementById('message').style.color = "green";
+                console.log("Submitted successfully");
+                displayProfile(aadharNumber1);
+                // Clear the form
+            })
+            .catch((error) => {
+                console.error("Error storing profile information: ", error);
+                document.getElementById('message').innerText = "Error submitting profile information.";
+                document.getElementById('message').style.color = "red";
+            });
+        }
+
+        function displayProfile(aadharNumber1) {
+            db.collection('users').doc(aadharNumber1).get().then((doc) => {
+                if (doc.exists) {
+                    const profile = doc.data();
+                    document.getElementById('profile-details').innerHTML = `
+                        <h2>Profile Details</h2>
+                        <p><strong>First Name:</strong> ${profile.Firstname}</p>
+                        <p><strong>Last Name:</strong> ${profile.Lastname}</p>
+                        <p><strong>Aadhar:</strong> ${aadharNumber1}</p>
+                        <p><strong>Email:</strong> ${profile.Email}</p>
+                        <p><strong>Gender:</strong> ${profile.Gender}</p>
+                        <p><strong>DOB:</strong> ${profile.Date}</p>
+                        <p><strong>Age:</strong> ${profile.Age}</p>
+                        <p><strong>Country:</strong> ${profile.Country}</p>
+                        <p><strong>State:</strong> ${profile.State}</p>
+                        <p><strong>City:</strong> ${profile.City}</p>
+                    `;
+                } else {
+                    document.getElementById('profile-details').innerHTML = 'No profile found';
+                }
+            }).catch((error) => {
+                console.error('Error getting profile: ', error);
+            });
+        }
+    </script>
+
+</body>
+</html>

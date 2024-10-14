@@ -1,0 +1,31 @@
+body {
+    background-color: #db4008; /* Adjust this to match your design */
+    font-family: Arial, sans-serif; /* Example font */
+}
+
+.container {
+    align-items: center;
+    background-color: rgb(6, 5, 5);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 500px;
+    text-align: center; /* Center text */
+}
+
+h2, h3 {
+    color: floralwhite; /* Heading color */
+}
+
+.btn {
+    background-color: #f8d4c7; /* Example button color */
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #db4008; /* Change color on hover */
+}

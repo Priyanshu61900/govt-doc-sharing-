@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    
+    <div class="login-container"> <!-- New container for the black box -->
+        <div class="login">
+            <h2>Login</h2>
+            <form autocomplete="off" onsubmit="signin(event)">
+                <label>Email:
+                    <br>
+                    <input type="text" placeholder="abc@gmail.com" id="loginemail">
+                </label>
+                <br>
+                <label>Password:
+                    <br>
+                    <input type="password" placeholder="123#$abc" id="loginpassword">
+                </label>
+                <br>
+                <div id="mess"></div>
+                
+                <button>Login</button>
+            </form>
+            <br>
+            <p class="register">Don't have an account? <a href="otp.html">Sign up</a></p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth-compat.js"></script>
+    
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpJBK7YBOgCYiAGXwBgkNqipyka1RcNpE",
+            authDomain: "sports-information-tracker.firebaseapp.com",
+            projectId: "sports-information-tracker",
+            storageBucket: "sports-information-tracker.appspot.com",
+            messagingSenderId: "593501086332",
+            appId: "1:593501086332:web:692e3fe102030b0a531ff9"
+        };
+    
+        // Initialize Firebase
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+        const db = firebaseApp.firestore();
+        const auth = firebaseApp.auth();
+    </script>
+        
+    <script src="auth.js"></script>
+    
+</body>
+</html>
